@@ -10,17 +10,26 @@ module.exports = (sequelize) => {
 			type: DataTypes.STRING(400),
 			allowNull: true
 		},
+		password: {
+			type: DataTypes.STRING(400),
+			allowNull: false
+		},
 		fullName: {
 			type: DataTypes.STRING(400),
 			allowNull: true
 		},
 		expiredDate: {
 			type: DataTypes.DATE,
-			allowNull: true
+			allowNull: false
 		},
 		tokenKey: {
 			type: DataTypes.STRING(200),
 			allowNull: true
+		},
+		isActive: {
+			type: DataTypes.INTEGER,			
+			defaultValue: 0,
+			allowNull: false
 		},
 		createdDate: {
 			type: DataTypes.DATE,
