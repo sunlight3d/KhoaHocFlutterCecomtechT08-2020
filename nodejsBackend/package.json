@@ -1,0 +1,28 @@
+{
+  "name": "nodejsbackend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.10",
+    "firebase": "^7.17.2",
+    "firebase-admin": "^9.0.0",
+    "googleapi": "^1.0.2",
+    "googleapis": "^59.0.0",
+    "http": "0.0.1-security",
+    "i18n": "^0.11.1",
+    "json-parser": "^3.1.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
+    "readline-sync": "^1.4.10",
+    "sequelize": "^6.3.4",
+    "sequelize-auto": "^0.5.3",
+    "tedious": "^9.1.0"
+  }
+}
