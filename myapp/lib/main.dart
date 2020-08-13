@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/screens/splash_screen.dart';
+import 'package:myapp/screens/screens.dart';
 
 void main()  => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //Cmd + Shift + \
     return MaterialApp(
-      home: SplashScreen()
+      home: MainScreen()
     );
   }
 }

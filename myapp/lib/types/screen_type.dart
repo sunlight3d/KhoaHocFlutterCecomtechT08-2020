@@ -1,0 +1,4 @@
+enum ScreenType {
+  login,
+  register
+}

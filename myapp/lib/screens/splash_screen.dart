@@ -12,18 +12,32 @@ class SplashScreen extends StatelessWidget {
             color: Colors.greenAccent
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 30),
-                child: Image(
-                  image: AssetImage('images/logo.jpeg'),
-                  width: 200,
-                  height: 200,
-                ),
+                padding: EdgeInsets.only(bottom: 40),
+                child: CircleAvatar(
+                  radius: 110,
+                  backgroundColor: Color(0xffFF00FF),
+                  child: CircleAvatar(
+                    radius: 100,
+                    backgroundImage: AssetImage(
+                      'images/logo.jpeg',
+
+                    ),
+                  ),
+                )
               ),
-              Text('Welcome to my App', style: TextStyle(fontSize: 30),)
+              Text('ECommerce App',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
+              SizedBox(
+                height: 10,
+              ),
+              Text('Welcome to my App',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 25),)
             ],
           ),
         )
