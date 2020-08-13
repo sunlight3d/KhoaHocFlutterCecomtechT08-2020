@@ -10,6 +10,7 @@ class _LoginWidget extends State<LoginWidget> {
   final TextEditingController _passwordController = TextEditingController();
   String _email = '';
   String _password = '';
+  bool _rememberMe = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,6 +53,29 @@ class _LoginWidget extends State<LoginWidget> {
               //return loginState.isValidEmail ? null : 'Invalid email format';
             },
           ),
+        ),
+        CheckboxListTile(
+          title: Text("Remember me"),
+          value: this._rememberMe,
+          onChanged: (newValue) {
+            setState(() {
+              _rememberMe = newValue;
+            });
+          },
+          controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+        ),
+        SizedBox(
+          child: RaisedButton(
+            color: Colors.green,
+            onPressed:(){
+
+            },
+            child: Text(
+                'Login',
+                style: TextStyle(color: Colors.white, fontSize: 20)),
+          ),
+          height: 40,
+          width: double.infinity,
         )
       ],
     );
