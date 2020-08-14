@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/screens/screens.dart';
 import 'package:myapp/types/role_type.dart';
 import 'package:myapp/widgets/business_widget.dart';
 import 'package:myapp/widgets/products_widget.dart';
@@ -79,7 +80,19 @@ class _TabScreen extends State<TabScreen> {
                   Navigator.of(context).pop();
                 },
               );
-            }).toList(),
+            }).toList()
+            +[
+              ListTile(
+                title: Text('Log out', style: TextStyle(color: Colors.red)),
+                onTap: (){
+                  Navigator.of(context).pop();
+                  Navigator.pushAndRemoveUntil(context,
+                      MaterialPageRoute(builder: (BuildContext context) => SplashScreen()),
+                      ModalRoute.withName('/'));
+
+                },
+              )
+              ],
           )// Populate the Drawer in the next step.
       ),
       body: tabScreens[_currentIndex],

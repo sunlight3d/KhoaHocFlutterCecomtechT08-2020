@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:myapp/Validators/validators.dart';
 import 'package:myapp/screens/tab_screen.dart';
 import 'package:myapp/types/role_type.dart';
@@ -9,6 +10,7 @@ class LoginWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _LoginWidget();
 }
 class _LoginWidget extends State<LoginWidget> {
+  static const methodChannel = const MethodChannel('cecomtech.training/printf');
   //states
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -22,6 +24,18 @@ class _LoginWidget extends State<LoginWidget> {
   bool get isValidEmailAndPasword => isValidEmail && isValidPassword;
 
   bool _rememberMe = false;
+
+  Future<void> _testCallNativePrint() async {
+    try {
+      await methodChannel.invokeMethod('printf',<String, dynamic>{
+        'name': 'Hoang',
+        'age': 18,
+      });
+      print('hahah ');
+    } on PlatformException catch (e) {
+
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +91,8 @@ class _LoginWidget extends State<LoginWidget> {
               child: RaisedButton(
                 color: Colors.green,
                 onPressed:(){
+                  _testCallNativePrint();
+                  return;
                   if(isValidEmailAndPasword == false){
                     //Show snackbar
                     showDialog(
