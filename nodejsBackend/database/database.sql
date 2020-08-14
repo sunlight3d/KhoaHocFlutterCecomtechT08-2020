@@ -1,3 +1,12 @@
+CREATE TABLE User(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	email VARCHAR(400) NOT NULL,
+	password VARCHAR(400) NOT NULL,
+	fullName VARCHAR(400),
+	createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+);
+/*
 module.exports = (sequelize) => {
 	return sequelize.define('User', {
 		id: {
@@ -8,7 +17,7 @@ module.exports = (sequelize) => {
 		},
 		email: {
 			type: DataTypes.STRING(400),
-			allowNull: false
+			allowNull: 
 		},
 		password: {
 			type: DataTypes.STRING(400),
@@ -41,3 +50,4 @@ module.exports = (sequelize) => {
 		timestamps: false,
 	})
 }
+*/
