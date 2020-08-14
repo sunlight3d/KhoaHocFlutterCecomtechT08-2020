@@ -1,8 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/models/models.dart';
+import 'package:myapp/screens/main_screen.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _SplashScreen();
+}
+class _SplashScreen extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 2), () {
+      Navigator.push(context,
+          MaterialPageRoute(
+              builder: (context) => MainScreen()
+          )
+      );
+    });
+  }
+  @override
+  void dispose() {
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

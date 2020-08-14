@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Validators/validators.dart';
+import 'package:myapp/screens/tab_screen.dart';
+import 'package:myapp/types/role_type.dart';
 import 'package:myapp/widgets/alert_widget.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -93,6 +95,11 @@ class _LoginWidget extends State<LoginWidget> {
                     return;
                   }
                   //Gui Api
+                  Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) => TabScreen(roleType: RoleType.admin)
+                    )
+                  );
                 },
                 child: Text(
                     'Login',
