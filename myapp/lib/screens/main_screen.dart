@@ -15,6 +15,7 @@ class _MainScreen extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Column(
           children: [
@@ -41,10 +42,12 @@ class _MainScreen extends State<MainScreen> {
                   },
                   isShowBottomLine: _screenType == ScreenType.register,
                 ),
-
               ],
             ),
-            _screenType == ScreenType.login ? LoginWidget() : RegisterWidget()
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: _screenType == ScreenType.login ? LoginWidget() : RegisterWidget(),
+            )
           ],
         ),
       )
