@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Validators/validators.dart';
 
+import 'alert_widget.dart';
+
 class RegisterWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _RegisterWidget();
@@ -17,16 +19,13 @@ class _RegisterWidget extends State<RegisterWidget> {
   bool get isPopulatedPassword => isValidPassword
       || _passwordController.text.isEmpty;
 
-  bool get isPopulatedRetypePassword => isValidRetypePassword
+  bool get isPopulatedRetypePassword => (isValidRetypePassword && isPasswordMatch)
       || _retypePasswordController.text.isEmpty;
 
   //valid
   bool get isValidEmail => Validators.isValidEmail(_emailController.text);
   bool get isValidPassword => Validators.isValidPassword(_passwordController.text);
-  bool get isPasswordMatch() {
-    
-    return _passwordController.text == _retypePasswordController.text;
-  };
+  bool get isPasswordMatch => _passwordController.text == _retypePasswordController.text;
   bool get isValidRetypePassword =>
       Validators.isValidPassword(_retypePasswordController.text);
 
@@ -83,15 +82,42 @@ class _RegisterWidget extends State<RegisterWidget> {
             obscureText: true,
             autovalidate: true,
             autocorrect: false,
-            validator: (value) =>
-              this.isPopulatedRetypePassword ? null
-                  : (isPasswordMatch == false ? 'Pass does not match' : 'Password is invalid'),
-          ),
+            validator: (value) {
+              if (isPopulatedRetypePassword == true) {
+                return null;
+              } else {
+                if (isPasswordMatch == false) {
+                  return 'Pass does not match';
+                } else if (isValidRetypePassword == false) {
+                  return 'Password is invalid';
+                } else {
+                  return null;
+                }
+              }
+            }),
         ),
         SizedBox(
           child: RaisedButton(
             color: Colors.green,
             onPressed:(){
+              if(isValidEmailAndPasword == false){
+                //Show snackbar
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertWidget(
+                        title: 'Error',
+                        message: 'Invalid email and password',
+                        onPressedOK: () {
+                          Navigator.of(context).pop();
+                        },
+                        onPressedCancel: null,
+                      );
+                    }
+                );
+                return;
+              }
+              //Gui Api
 
             },
             child: Text(
