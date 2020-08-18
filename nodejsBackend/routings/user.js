@@ -29,6 +29,8 @@ module.exports = ({router, i18n, sequelize}) => {
 			}
 			const { email, password } = request.body
 			const User = await require('../models/user')(sequelize)
+			const dayAfter30Days = new Date();
+			dayAfter30Days.setDate(dayAfter30Days.getDate() + 30);			
 			let newUser = await User.create({
 				email,
 				password: await hashPassword(password),
@@ -40,6 +42,8 @@ module.exports = ({router, i18n, sequelize}) => {
 				status: STATUS_SUCCESS,
 				message: 'Register user successfully',
 				data: { email, id, tokenKey },
+				expiredDate: dayAfter30Days,
+				isActive: 1,			
 				i18n
 			})
 		} catch (exception) {
@@ -54,51 +58,104 @@ module.exports = ({router, i18n, sequelize}) => {
 		}		
 	})		
 	router.post('/login', async (request, response) => {
-		validator(request.body, validationRule, {}, async (err, status) => {
-			if (!status) {
+		try {						
+			const { email, password } = request.body
+			const User = await require('../models/user')(sequelize)
+			const foundUser = await User.findOne({email})
+			if(foundUser == null) {
 				jsonResponse({
 					response,
-					status: STATUS_FAILED,	
-					message: `Validation error: ${err}`
+					status: STATUS_FAILED,
+					message: 'Cannot find user',
+					data: {},
+					i18n
 				})
-			} else {
-				const {email, password} = request.body
-				try {
-					const user = await User.findOne({
-						email						
-					})
-					if(user == null) {
-						jsonResponse({
-							response,
-							status: STATUS_FAILED,	
-							message: 'Cannot find user',
-							data: {}
-						})	
-					}
-					if(await checkPassword({password, hashedPassword: user.password}) == false) {
-						jsonResponse({
-							response,
-							status: STATUS_FAILED,	
-							message: 'Wrong email and password',
-							data: {email, id, name, tokenKey}
-						})
-					}					
-					jsonResponse({
-						response,
-						status: STATUS_SUCCESS,	
-						message: 'Register user successfully',
-						data: {email, id, name, tokenKey}
-					})
-				}catch(exception) {
-					jsonResponse({
-						response,
-						status: STATUS_FAILED,	
-						message: `Cannot register new user: ${err}`,
-						data: {}
-					})
-				}				
-			}
-		})		
+				return
+			}			
+			if(await checkPassword({ password, hashedPassword: foundUser.password }) == false) {
+				jsonResponse({
+					response,
+					status: STATUS_FAILED,
+					message: 'Wrong email and password',
+					data: {},
+					i18n
+				})
+				return
+			}			
+			const dayAfter30Days = new Date();
+			dayAfter30Days.setDate(dayAfter30Days.getDate() + 30);
+			foundUser.expiredDate = dayAfter30Days
+			foundUser.isActive = 1			
+			await foundUser.save()
+			const { id, tokenKey } = foundUser
+			jsonResponse({
+				response,
+				status: STATUS_SUCCESS,
+				message: 'Login user successfully',
+				data: { email, id, tokenKey },
+				i18n
+			})						
+		} catch (exception) {			
+			jsonResponse({
+				response,
+				status: STATUS_FAILED,
+				message: `Cannot login user: ${getMessageFromException(exception)}`,
+				data: {},
+				i18n
+			})
+		}			
 	})		
+	/*
+	router.post('/update', async (request, response) => {
+		try {						
+			const { email, image } = request.body
+			
+			const User = await require('../models/user')(sequelize)
+			const foundUser = await User.findOne({email})
+			if(foundUser == null) {
+				jsonResponse({
+					response,
+					status: STATUS_FAILED,
+					message: 'Cannot find user',
+					data: {},
+					i18n
+				})
+				return
+			}			
+			if(await checkPassword({ password, hashedPassword: foundUser.password }) == false) {
+				jsonResponse({
+					response,
+					status: STATUS_FAILED,
+					message: 'Wrong email and password',
+					data: {},
+					i18n
+				})
+				return
+			}			
+			const dayAfter30Days = new Date();
+			dayAfter30Days.setDate(dayAfter30Days.getDate() + 30);
+			foundUser.expiredDate = dayAfter30Days
+			foundUser.isActive = 1			
+			await foundUser.save()
+			const { id, tokenKey } = foundUser
+			jsonResponse({
+				response,
+				status: STATUS_SUCCESS,
+				message: 'Login user successfully',
+				data: { email, id, tokenKey },
+				i18n
+			})						
+		} catch (exception) {			
+			jsonResponse({
+				response,
+				status: STATUS_FAILED,
+				message: `Cannot login user: ${getMessageFromException(exception)}`,
+				data: {},
+				i18n
+			})
+		}		
+			
+	})	
+	*/	
 	return router
 }
