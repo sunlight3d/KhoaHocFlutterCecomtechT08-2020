@@ -8,18 +8,21 @@ const validator = require('../helpers/validator')
 const {
 	hashPassword,
 	checkPassword,
-	generateRandomString,
-	checkPassword
+	generateRandomString,	
 } = require('../helpers/utilities')
 
 module.exports = ({router, i18n, sequelize}) => {
+	
 	const User = require('../models/user')(sequelize)
+	debugger
 	const validationRule = {
         "email": "required|email",        
         "password": "required|string|min:2",        
     }    	
 	router.post('/register', async (request, response) => {
-		validator(request.body, validationRule, {}, (err, status) => {
+		debugger
+		validator(request.body, validationRule, {}, async (err, status) => {
+			debugger
 			if (!status) {
 				jsonResponse({
 					response,
@@ -54,7 +57,7 @@ module.exports = ({router, i18n, sequelize}) => {
 
 	})		
 	router.post('/login', async (request, response) => {
-		validator(request.body, validationRule, {}, (err, status) => {
+		validator(request.body, validationRule, {}, async (err, status) => {
 			if (!status) {
 				jsonResponse({
 					response,
@@ -100,4 +103,5 @@ module.exports = ({router, i18n, sequelize}) => {
 			}
 		})		
 	})		
+	return router
 }

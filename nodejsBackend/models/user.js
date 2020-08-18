@@ -1,4 +1,5 @@
-module.exports = (sequelize) => {
+const { DataTypes, Sequelize } = require('sequelize');
+module.exports = (sequelize) => {	
 	return sequelize.define('User', {
 		id: {
 			type: DataTypes.INTEGER(11),
@@ -34,7 +35,7 @@ module.exports = (sequelize) => {
 		createdDate: {
 			type: DataTypes.DATE,
 			allowNull: true,
-			defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+			defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
 		},
 	}, {
 		tableName: 'User',

@@ -1,6 +1,12 @@
 module.exports = {
-    HOSTNAME: 'localhost',
-    DB_PORT: 3306,
-    DB_NAME: 'NodejsBackend',
-    MAXMUM_FILE_SIZE: 50 //50MB    
+    HOSTNAME: 'localhost',    
+    PORT: 3000,
+    MAXMUM_FILE_SIZE: 50, //50MB    
+    MYSQL: {
+        DB_NAME: 'NodejsBackend',    
+        DB_PORT: 3306,        
+        USER_NAME: 'root',
+        PASSWORD: ''
+    }
 }
+
