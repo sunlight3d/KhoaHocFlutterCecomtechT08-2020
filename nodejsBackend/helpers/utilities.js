@@ -1,9 +1,9 @@
 const bcrypt = require('bcrypt')
+const cryptoRandomString = require('crypto-random-string')
 const saltRounds = 10
 async function hashPassword(password) {
     try {
-        const hashedPassword  = await bcrypt.hash(password, saltRounds)
-        return hashPassword
+        return await bcrypt.hash(password, saltRounds)        
     }catch(exception) {
         return ''
     }

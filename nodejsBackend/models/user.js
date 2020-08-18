@@ -1,5 +1,5 @@
 const { DataTypes, Sequelize } = require('sequelize');
-module.exports = (sequelize) => {	
+module.exports = async (sequelize) => {	
 	return sequelize.define('User', {
 		id: {
 			type: DataTypes.INTEGER(11),
@@ -21,7 +21,7 @@ module.exports = (sequelize) => {
 		},
 		expiredDate: {
 			type: DataTypes.DATE,
-			allowNull: false
+			allowNull: true
 		},
 		tokenKey: {
 			type: DataTypes.STRING(200),
@@ -30,7 +30,12 @@ module.exports = (sequelize) => {
 		isActive: {
 			type: DataTypes.INTEGER,			
 			defaultValue: 0,
-			allowNull: false
+			allowNull: true
+		},
+		role: {
+			type: DataTypes.INTEGER,			
+			defaultValue: ,
+			allowNull: true
 		},
 		createdDate: {
 			type: DataTypes.DATE,

@@ -16,8 +16,7 @@ module.exports = () => {
 				host: HOSTNAME,
 				port: DB_PORT
 			})
-		sequelize.authenticate()	
-		debugger	
+		sequelize.authenticate()			
 		console.log('Connection Sequelize successfully.')		
 		return sequelize
 	} catch(exception){
