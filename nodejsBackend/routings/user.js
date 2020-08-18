@@ -15,7 +15,7 @@ const {checkTokenKey} = require('./validator')
 const REGISTER_USER = '/register'
 const LOGIN_USER = '/login'
 module.exports = ({router, i18n, sequelize, app}) => {		
-	app.use((request, response, next) => {
+	app.use(async (request, response, next) => {
 		const { originalUrl } = request
 		const routerPath = `/${originalUrl.split('/')[originalUrl.split('/').length-1]}`		
 		if(routerPath == REGISTER_USER || routerPath == LOGIN_USER) {			
@@ -24,7 +24,7 @@ module.exports = ({router, i18n, sequelize, app}) => {
 		}
 		debugger
 		const {email, tokenKey} = request.body
-		if(checkTokenKey({email, tokenKey})) {
+		if(await checkTokenKey({email, tokenKey})) {
 			next()
 		}
 		
