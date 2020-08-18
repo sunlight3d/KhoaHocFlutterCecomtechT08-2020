@@ -31,13 +31,13 @@ module.exports = ({router, i18n, sequelize}) => {
 			try {
 				const User = await require('../models/user')(sequelize)									
 				debugger	
-				const newUser = await User.create({
-					email: email, 
+				let newUser = await User.create({
+					email, 
 					password: await hashPassword(password),
 					tokenKey: generateRandomString(40),				
 				})
 				debugger
-				const {email, id, name, tokenKey} = newUser
+				const {id, name, tokenKey} = newUser
 				debugger
 				jsonResponse({
 					response,
