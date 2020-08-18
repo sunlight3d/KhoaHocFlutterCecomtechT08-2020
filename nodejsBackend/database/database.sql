@@ -1,15 +1,17 @@
 CREATE DATABASE NodejsBackend;
 USE NodejsBackend;
+DROP TABLE User;
 CREATE TABLE IF NOT EXISTS User(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	email VARCHAR(400) NOT NULL,
 	password VARCHAR(400) NOT NULL,
-	fullName VARCHAR(400),
+	fullName VARCHAR(400) DEFAULT '',
 	createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	expiredDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	tokenKey VARCHAR(400),
 	role INT DEFAULT 1,	
-	isActive INT	
+	isActive INT,
+	UNIQUE (email)	
 );
 /*
 module.exports = (sequelize) => {

@@ -1,7 +1,7 @@
 /*
 npm install -i express express-fileupload firebase firebase-admin googleapi googleapis validatorjs
 npm install -i http i18n mysql mysql2 json-parser readline-sync sequelize sequelize-auto tedious bcrypt
-npm install -i crypto-random-string
+npm install -i crypto-random-string cors
 
 */
 
@@ -11,6 +11,7 @@ const app = express()
 const {PORT} = require('./constants/constants')
 const i18n = require('./locales/i18n')()
 app.use(i18n.init)
+app.use(require('cors')())
 
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')

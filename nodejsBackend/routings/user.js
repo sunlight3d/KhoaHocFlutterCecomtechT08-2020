@@ -1,5 +1,6 @@
 const {
 	jsonResponse,
+	getMessageFromException,
 	STATUS_SUCCESS,
 	STATUS_FAILED
 } = require('./jsonResponse')
@@ -11,50 +12,46 @@ const {
 	generateRandomString,	
 } = require('../helpers/utilities')
 
-module.exports = ({router, i18n, sequelize}) => {
-		
-	const validationRule = {
+module.exports = ({router, i18n, sequelize}) => {		
+	const rules = {
         "email": "required|email",        
         "password": "required|string|min:2",        
     }    	
 	router.post('/register', async (request, response) => {		
-		const {error, status} = await validator(request.body, validationRule)		
-		if (!status) {
-			jsonResponse({
-				response,
-				status: STATUS_FAILED,					
-				message: `Validation error: ${error}`
-			})
-		} else {
-			const {email, password} = request.body
-			
-			try {
-				const User = await require('../models/user')(sequelize)									
-				debugger	
-				let newUser = await User.create({
-					email, 
-					password: await hashPassword(password),
-					tokenKey: generateRandomString(40),				
-				})
-				debugger
-				const {id, name, tokenKey} = newUser
-				debugger
+		try {
+			const { error, status } = await validator(request.body, rules)
+			if (!status) {
 				jsonResponse({
 					response,
-					status: STATUS_SUCCESS,
-					message: 'Register user successfully',
-					data: {email, id, name, tokenKey}
-				})
-			}catch(exception) {
-				debugger
-				jsonResponse({
-					response,
-					status: STATUS_FAILED,	
-					message: `Cannot register new user: ${error}`,
-					data: {}
+					status: STATUS_FAILED,
+					message: `Validation error: ${error}`
 				})
 			}
-		}
+			const { email, password } = request.body
+			const User = await require('../models/user')(sequelize)
+			let newUser = await User.create({
+				email,
+				password: await hashPassword(password),
+				tokenKey: generateRandomString(40),
+			})
+			const { id, tokenKey } = newUser			
+			jsonResponse({
+				response,
+				status: STATUS_SUCCESS,
+				message: 'Register user successfully',
+				data: { email, id, tokenKey },
+				i18n
+			})
+		} catch (exception) {
+			debugger
+			jsonResponse({
+				response,
+				status: STATUS_FAILED,
+				message: `Cannot register new user: ${getMessageFromException(exception)}`,
+				data: {},
+				i18n
+			})
+		}		
 	})		
 	router.post('/login', async (request, response) => {
 		validator(request.body, validationRule, {}, async (err, status) => {
