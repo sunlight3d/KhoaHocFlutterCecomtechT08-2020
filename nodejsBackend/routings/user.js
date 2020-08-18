@@ -11,13 +11,29 @@ const {
 	checkPassword,
 	generateRandomString,	
 } = require('../helpers/utilities')
-
-module.exports = ({router, i18n, sequelize}) => {		
+const {checkTokenKey} = require('./validator')
+const REGISTER_USER = '/register'
+const LOGIN_USER = '/login'
+module.exports = ({router, i18n, sequelize, app}) => {		
+	app.use((request, response, next) => {
+		const { originalUrl } = request
+		const routerPath = `/${originalUrl.split('/')[originalUrl.split('/').length-1]}`		
+		if(routerPath == REGISTER_USER || routerPath == LOGIN_USER) {			
+			next()
+			return
+		}
+		debugger
+		const {email, tokenKey} = request.body
+		if(checkTokenKey({email, tokenKey})) {
+			next()
+		}
+		
+	})
 	const rules = {
         "email": "required|email",        
         "password": "required|string|min:2",        
-    }    	
-	router.post('/register', async (request, response) => {		
+	}    		
+	router.post(REGISTER_USER, async (request, response) => {		
 		try {
 			const { error, status } = await validator(request.body, rules)
 			if (!status) {
@@ -26,6 +42,7 @@ module.exports = ({router, i18n, sequelize}) => {
 					status: STATUS_FAILED,
 					message: `Validation error: ${error}`
 				})
+				return
 			}
 			const { email, password } = request.body
 			const User = await require('../models/user')(sequelize)
@@ -57,7 +74,8 @@ module.exports = ({router, i18n, sequelize}) => {
 			})
 		}		
 	})		
-	router.post('/login', async (request, response) => {
+	router.post(LOGIN_USER, async (request, response) => {
+		debugger
 		try {						
 			const { email, password } = request.body
 			const User = await require('../models/user')(sequelize)
