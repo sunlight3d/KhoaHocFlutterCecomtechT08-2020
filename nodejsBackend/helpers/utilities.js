@@ -9,7 +9,7 @@ async function hashPassword(password) {
     }
 }
 async function checkPassword({password, hashedPassword}) {     
-    const match = await bcrypt.compare(password, hashPassword);
+    const match = await bcrypt.compare(password, hashedPassword);
     return match
 }
 

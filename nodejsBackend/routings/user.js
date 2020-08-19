@@ -14,11 +14,14 @@ const {
 const {checkTokenKey} = require('./validator')
 const REGISTER_USER = '/register'
 const LOGIN_USER = '/login'
+const LOGOUT_USER = '/logout'
 module.exports = ({router, i18n, sequelize, app}) => {		
 	app.use(async (request, response, next) => {
 		const { originalUrl } = request
 		const routerPath = `/${originalUrl.split('/')[originalUrl.split('/').length-1]}`		
-		if(routerPath == REGISTER_USER || routerPath == LOGIN_USER) {			
+		if(routerPath == REGISTER_USER 
+			|| routerPath == LOGIN_USER
+			|| routerPath == LOGOUT_USER) {			
 			next()
 			return
 		}
@@ -80,7 +83,7 @@ module.exports = ({router, i18n, sequelize, app}) => {
 		try {						
 			const { email, password } = request.body
 			const User = await require('../models/user')(sequelize)
-			const foundUser = await User.findOne({email})
+			const foundUser = await User.findOne({where: {email} })
 			if(foundUser == null) {
 				jsonResponse({
 					response,
@@ -90,8 +93,9 @@ module.exports = ({router, i18n, sequelize, app}) => {
 					i18n
 				})
 				return
-			}			
-			if(await checkPassword({ password, hashedPassword: foundUser.password }) == false) {
+			}	
+			const isMatch = await checkPassword({ password, hashedPassword: foundUser.password })		
+			if(isMatch == false) {
 				jsonResponse({
 					response,
 					status: STATUS_FAILED,
@@ -124,6 +128,44 @@ module.exports = ({router, i18n, sequelize, app}) => {
 			})
 		}			
 	})		
+	router.post(LOGOUT_USER, async (request, response) => {
+		debugger
+		try {						
+			const { tokenKey, email } = request.body
+			const User = await require('../models/user')(sequelize)
+			const foundUser = await User.findOne({where: {tokenKey, email}})
+			if(foundUser == null) {
+				jsonResponse({
+					response,
+					status: STATUS_FAILED,
+					message: 'Cannot find user',
+					data: {},
+					i18n
+				})
+				return
+			}	
+			foundUser.tokenKey = ''
+			foundUser.isActive = 0
+			foundUser.expiredDate = new Date();				
+			await foundUser.save()			
+			jsonResponse({
+				response,
+				status: STATUS_SUCCESS,
+				message: 'logout user successfully',
+				data: { },
+				i18n
+			})						
+		} catch (exception) {			
+			jsonResponse({
+				response,
+				status: STATUS_FAILED,
+				message: `Cannot login user: ${getMessageFromException(exception)}`,
+				data: {},
+				i18n
+			})
+		}			
+	})
+
 	/*
 	router.post('/update', async (request, response) => {
 		try {						

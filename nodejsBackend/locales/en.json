@@ -8,5 +8,7 @@
 	"Cannot register new user: The email format is invalid.": "Cannot register new user: The email format is invalid.",
 	"Cannot register new user: The email format is invalid.,The password must be at least 2 characters.": "Cannot register new user: The email format is invalid.,The password must be at least 2 characters.",
 	"Login user successfully": "Login user successfully",
-	"Cannot register new user: The email field is required.": "Cannot register new user: The email field is required."
+	"Cannot register new user: The email field is required.": "Cannot register new user: The email field is required.",
+	"Wrong email and password": "Wrong email and password",
+	"logout user successfully": "logout user successfully"
 }
