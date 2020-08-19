@@ -35,6 +35,7 @@ module.exports = ({router, i18n, sequelize, app}) => {
 	}    		
 	router.post(REGISTER_USER, async (request, response) => {		
 		try {
+			debugger
 			const { error, status } = await validator(request.body, rules)
 			if (!status) {
 				jsonResponse({
@@ -52,15 +53,15 @@ module.exports = ({router, i18n, sequelize, app}) => {
 				email,
 				password: await hashPassword(password),
 				tokenKey: generateRandomString(40),
+				expiredDate: dayAfter30Days,
+				isActive: 1,			
 			})
 			const { id, tokenKey } = newUser			
 			jsonResponse({
 				response,
 				status: STATUS_SUCCESS,
 				message: 'Register user successfully',
-				data: { email, id, tokenKey },
-				expiredDate: dayAfter30Days,
-				isActive: 1,			
+				data: { email, id, tokenKey },				
 				i18n
 			})
 		} catch (exception) {

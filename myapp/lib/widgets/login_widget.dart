@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/Validators/validators.dart';
+import 'package:myapp/local_databases/sqlite_db.dart';
+import 'package:myapp/models/models.dart';
+import 'package:myapp/natives/print.dart';
+import 'package:myapp/repositories/repositories.dart';
 import 'package:myapp/screens/tab_screen.dart';
 import 'package:myapp/types/role_type.dart';
 import 'package:myapp/widgets/alert_widget.dart';
 
 class LoginWidget extends StatefulWidget {
+  final UserRepository userRepository;
+  LoginWidget({this.userRepository});
   @override
   State<StatefulWidget> createState() => _LoginWidget();
 }
 class _LoginWidget extends State<LoginWidget> {
-  static const methodChannel = const MethodChannel('cecomtech.training/printf');
   //states
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -24,18 +29,6 @@ class _LoginWidget extends State<LoginWidget> {
   bool get isValidEmailAndPasword => isValidEmail && isValidPassword;
 
   bool _rememberMe = false;
-
-  Future<void> _testCallNativePrint() async {
-    try {
-      await methodChannel.invokeMethod('printf',<String, dynamic>{
-        'name': 'Hoang',
-        'age': 18,
-      });
-      print('hahah ');
-    } on PlatformException catch (e) {
-
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,9 +83,8 @@ class _LoginWidget extends State<LoginWidget> {
             SizedBox(
               child: RaisedButton(
                 color: Colors.green,
-                onPressed:(){
-                  _testCallNativePrint();
-                  return;
+                onPressed:() async{
+                  //await printf(content: 'Hello');
                   if(isValidEmailAndPasword == false){
                     //Show snackbar
                     showDialog(
@@ -111,9 +103,19 @@ class _LoginWidget extends State<LoginWidget> {
                     return;
                   }
                   //Gui Api
+                  User _user = await this.widget.userRepository.login(
+                    email: _emailController.text ?? '',
+                    password: _passwordController.text ?? ''
+                  );
+                  if(_user != null && _rememberMe == true) {
+                    await SQLiteDatabase.sharedInstance.insertUser(user: _user);
+                  }
+
                   Navigator.push(context,
                     MaterialPageRoute(
-                        builder: (context) => TabScreen(roleType: RoleType.admin)
+                        builder: (context) => TabScreen(
+                            roleType: _user.role
+                        )
                     )
                   );
                 },

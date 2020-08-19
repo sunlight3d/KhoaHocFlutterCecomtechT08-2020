@@ -28,6 +28,6 @@
     "sequelize": "^6.3.4",
     "sequelize-auto": "^0.5.3",
     "tedious": "^9.1.0",
-    "validatorjs": "^3.18.1"
+    "validatorjs": "^3.19.0"
   }
 }

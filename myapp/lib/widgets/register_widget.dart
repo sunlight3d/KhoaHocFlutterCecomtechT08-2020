@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Validators/validators.dart';
+import 'package:myapp/local_databases/sqlite_db.dart';
+import 'package:myapp/models/models.dart';
+import 'package:myapp/repositories/repositories.dart';
+import 'package:myapp/screens/tab_screen.dart';
+import 'package:myapp/types/role_type.dart';
 
 import 'alert_widget.dart';
 
 class RegisterWidget extends StatefulWidget {
+  final UserRepository userRepository;
+  RegisterWidget({this.userRepository});
   @override
   State<StatefulWidget> createState() => _RegisterWidget();
 }
@@ -99,7 +106,7 @@ class _RegisterWidget extends State<RegisterWidget> {
         SizedBox(
           child: RaisedButton(
             color: Colors.green,
-            onPressed:(){
+            onPressed:() async {
               if(isValidEmailAndPasword == false){
                 //Show snackbar
                 showDialog(
@@ -118,7 +125,19 @@ class _RegisterWidget extends State<RegisterWidget> {
                 return;
               }
               //Gui Api
-
+              //Gui Api
+              User _user = await this.widget.userRepository.register(
+                  email: _emailController.text ?? '',
+                  password: _passwordController.text ?? ''
+              );
+              await SQLiteDatabase.sharedInstance.insertUser(user: _user);
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (context) => TabScreen(
+                          roleType: _user.role
+                      )
+                  )
+              );
             },
             child: Text(
                 'Register',

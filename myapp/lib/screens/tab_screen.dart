@@ -34,8 +34,14 @@ class _TabScreen extends State<TabScreen> {
       )
     ]:
     [
-      BottomNavigationBarItem(icon: Icon(Icons.list_rounded)),
-      BottomNavigationBarItem(icon: Icon(Icons.business)),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.list_rounded),
+        title: Text('Products'),
+      ),
+      BottomNavigationBarItem(
+          icon: Icon(Icons.business),
+          title: Text('Business'),
+      ),
     ];
 
   }

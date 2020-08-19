@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/repositories/repositories.dart';
 import 'package:myapp/types/screen_type.dart';
 import 'package:myapp/widgets/header_button.dart';
 import 'package:myapp/widgets/widgets.dart';
 
 class MainScreen extends StatefulWidget {
+  final UserRepository userRepository;
+  MainScreen({this.userRepository});
   @override
   State<StatefulWidget> createState() => _MainScreen();
 }
@@ -46,7 +49,9 @@ class _MainScreen extends State<MainScreen> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              child: _screenType == ScreenType.login ? LoginWidget() : RegisterWidget(),
+              child: _screenType == ScreenType.login ?
+                        LoginWidget(userRepository: this.widget.userRepository) :
+                        RegisterWidget(userRepository: this.widget.userRepository),
             )
           ],
         ),

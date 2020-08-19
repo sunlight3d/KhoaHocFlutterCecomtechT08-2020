@@ -1,5 +1,5 @@
 class RoleType {
-  static const owner = 1;
+  static const user = 1;
   static const admin = 2;
-  static const user = 3;
+  static const owner = 3;
 }

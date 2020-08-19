@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/models/models.dart';
+import 'package:myapp/repositories/repositories.dart';
 import 'package:myapp/screens/main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
+  final UserRepository userRepository;
+  SplashScreen({this.userRepository});
   @override
   State<StatefulWidget> createState() => _SplashScreen();
 }
@@ -14,7 +17,8 @@ class _SplashScreen extends State<SplashScreen> {
     Future.delayed(Duration(seconds: 2), () {
       Navigator.push(context,
           MaterialPageRoute(
-              builder: (context) => MainScreen()
+              builder: (context) => MainScreen(
+                userRepository: this.widget.userRepository,)
           )
       );
     });
