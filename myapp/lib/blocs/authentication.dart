@@ -1,4 +1,6 @@
 //cai 2 thu vien: Equatable, flutter bloc
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
@@ -79,7 +81,10 @@ class AuthenticationStateNotLogin extends AuthenticationState {
 //Bloc
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>{
   final UserRepository userRepository;
-  AuthenticationBloc({this.userRepository}):super(AuthenticationStateInitial());
+  AuthenticationBloc({this.userRepository})
+  //:super(AuthenticationStateSuccess(user: User(email: 'hoang', tokenKey: 'ssss')));
+//  :super(AuthenticationStateFailed(message: 'alaoaa'));
+  :super(AuthenticationStateInitial());
   @override
   Stream<AuthenticationState> mapEventToState(AuthenticationEvent authenticationEvent)
     async *{
@@ -121,13 +126,17 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>{
           SQLiteDatabase.sharedInstance.deleteUser(user: user);
         }
       } else if(authenticationEvent is AuthenticationEventCheckToken) {
-        final user = await SQLiteDatabase.sharedInstance.getUser();
+        var user = await SQLiteDatabase.sharedInstance.getUser();
         if(user != null) {
           String email = user.email;
           String tokenKey = user.tokenKey;
           final response = await userRepository
               .checkToken(tokenKey: tokenKey, email: email);
           if(response.error == null) {
+            user = response.result;
+            await SQLiteDatabase.sharedInstance.updateUser(
+                user: user
+            );
             yield AuthenticationStateSuccess(user: user);
           } else {
             yield AuthenticationStateFailed(message: response.error);

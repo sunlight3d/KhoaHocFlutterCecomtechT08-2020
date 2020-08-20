@@ -95,7 +95,10 @@ class UserRepository {
     );
     if(response.statusCode == 200) {
       if(json.decode(response.body)['status'] == 'STATUS_SUCCESS') {
-        return Response(result: {}, error: null);
+        User _user = User.fromJSON(
+            data: json.decode(response.body)['data']
+        );
+        return Response(result: _user, error: null);
       } else {
         return Response(result: null, error: json.decode(response.body)['message']);
       }
