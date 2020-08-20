@@ -20,17 +20,28 @@ class _MainScreen extends State<MainScreen> {
   //states
   ScreenType _screenType = ScreenType.login;
   @override
+  void initState() {
+    super.initState();
+
+  }
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder:  (context, authenticationState) {
           if(authenticationState is AuthenticationStateSuccess) {
-            Navigator.push(context,
-                MaterialPageRoute(
-                    builder: (context) => TabScreen(
-                        roleType: authenticationState.user.role
-                    )
-                )
+            Future.delayed(
+              Duration(milliseconds: 200),
+                  (){
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (context) => TabScreen(
+                                roleType: authenticationState.user.role
+                            )
+                        )
+                    );
+                  },
             );
+
           } else if(authenticationState is AuthenticationStateFailed) {
             showDialog(
                 context: context,

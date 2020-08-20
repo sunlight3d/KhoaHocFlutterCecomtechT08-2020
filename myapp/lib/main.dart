@@ -12,7 +12,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthenticationBloc(userRepository: userRepository),
+      create: (context) {
+        final x = AuthenticationBloc(userRepository: userRepository);
+        return x;
+      },
       child: MaterialApp(
         initialRoute: '/',
         routes: {
