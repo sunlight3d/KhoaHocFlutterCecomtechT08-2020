@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/blocs/products/bloc.dart';
+import 'package:myapp/blocs/products/events.dart';
 import 'package:myapp/models/models.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -7,6 +10,7 @@ class ProductsWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _ProductsWidget();
 }
 final products = [
+  /*
   Product(id: 1,
       name: 'iphone 44',
       year: 2020,
@@ -77,19 +81,26 @@ final products = [
       url: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Cat_poster_1.jpg',
       quantity: 66
   )
+
+   */
 ];
 class _ProductsWidget extends State<ProductsWidget> {
   final _scrollController = ScrollController();
   final _scrollThreadhold = 250.0;
+  var currentPage = 1;
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<ProductsBloc>(context)
+        .add(ProductsEventFetch(page:1, limit:10));
+
     _scrollController.addListener(() {
       final maxScrollExtent = _scrollController.position.maxScrollExtent;
       final currentScroll = _scrollController.position.pixels;
       if(maxScrollExtent - currentScroll <= _scrollThreadhold) {
-        //scroll to the end of 1 page
-        print('scroll xuong cuoi');
+        currentPage = currentPage + 1;
+        BlocProvider.of<ProductsBloc>(context)
+            .add(ProductsEventFetch(page:currentPage, limit:10));
       }
     });
   }

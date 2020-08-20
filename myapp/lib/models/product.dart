@@ -19,5 +19,4 @@ class Product {
         assert(year != null),
         assert(quantity >= 0)
   ;
-  get fullName => '$name - $year';
 }

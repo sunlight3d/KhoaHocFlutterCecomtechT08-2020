@@ -4,7 +4,8 @@ import 'package:myapp/blocs/authentication/states.dart';
 import 'package:myapp/local_databases/sqlite_db.dart';
 import 'package:myapp/repositories/repositories.dart';
 import 'events.dart';
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>{
+class AuthenticationBloc extends
+  Bloc<AuthenticationEvent, AuthenticationState>{
   final UserRepository userRepository;
   AuthenticationBloc({this.userRepository})
   //:super(AuthenticationStateSuccess(user: User(email: 'hoang', tokenKey: 'ssss')));
