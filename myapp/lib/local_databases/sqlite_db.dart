@@ -46,9 +46,13 @@ class SQLiteDatabase {
     );
   }
   Future<User> getUser() async {
-    final db = await this.getDatabase();
-    final List<Map<String, dynamic>> maps = await db.query(TABLE_USER);
-    return User.fromJSON(data: maps[0] as Map<String, dynamic>);
+    try {
+      final db = await this.getDatabase();
+      final List<Map<String, dynamic>> maps = await db.query(TABLE_USER);
+      return User.fromJSON(data: maps[0] as Map<String, dynamic>);
+    }catch(exception) {
+      return null;
+    }
   }
 
 }

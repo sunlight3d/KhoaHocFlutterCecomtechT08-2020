@@ -58,6 +58,16 @@ class _LoginWidget extends State<LoginWidget> {
           } else if(authenticationState is AuthenticationStateInitial) {
               BlocProvider.of<AuthenticationBloc>(context)
                   .add(AuthenticationEventCheckToken());
+          } else if(authenticationState is AuthenticationStateLoggingIn) {
+            return Dialog(
+              child: new Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  new CircularProgressIndicator(),
+                  new Text("Loading"),
+                ],
+              ),
+            );
           }
           return Form(
               child:Column(

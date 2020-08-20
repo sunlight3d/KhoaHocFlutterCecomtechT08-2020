@@ -15,12 +15,14 @@ const {checkTokenKey} = require('./validator')
 const REGISTER_USER = '/register'
 const LOGIN_USER = '/login'
 const LOGOUT_USER = '/logout'
+const CHECK_TOKEN = '/check_token'
 module.exports = ({router, i18n, sequelize, app}) => {		
 	app.use(async (request, response, next) => {
 		const { originalUrl } = request
 		const routerPath = `/${originalUrl.split('/')[originalUrl.split('/').length-1]}`		
 		if(routerPath == REGISTER_USER 
 			|| routerPath == LOGIN_USER
+			|| routerPath == CHECK_TOKEN
 			|| routerPath == LOGOUT_USER) {			
 			next()
 			return
@@ -155,6 +157,51 @@ module.exports = ({router, i18n, sequelize, app}) => {
 				data: { },
 				i18n
 			})						
+		} catch (exception) {			
+			jsonResponse({
+				response,
+				status: STATUS_FAILED,
+				message: `Cannot login user: ${getMessageFromException(exception)}`,
+				data: {},
+				i18n
+			})
+		}			
+	})
+	router.post(CHECK_TOKEN, async (request, response) => {		
+		try {						
+			const { tokenKey, email } = request.body
+			const User = await require('../models/user')(sequelize)
+			const foundUser = await User.findOne({where: {tokenKey, email}})
+			if(foundUser == null) {
+				jsonResponse({
+					response,
+					status: STATUS_FAILED,
+					message: 'Cannot find user',
+					data: {},
+					i18n
+				})
+				return
+			}	
+			let today = new Date()
+			debugger
+			foundUser.password = 'not show'
+			if(foundUser.expiredDate >= today && foundUser.isActive == true) {
+				jsonResponse({
+					response,
+					status: STATUS_SUCCESS,
+					message: 'Token is ok',
+					data: foundUser,
+					i18n
+				})						
+			} else {
+				jsonResponse({
+					response,
+					status: STATUS_FAILED,
+					message: 'Token is failed',
+					data: { },
+					i18n
+				})						
+			}						
 		} catch (exception) {			
 			jsonResponse({
 				response,

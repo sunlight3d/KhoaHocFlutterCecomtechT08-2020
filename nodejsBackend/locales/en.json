@@ -10,5 +10,8 @@
 	"Login user successfully": "Login user successfully",
 	"Cannot register new user: The email field is required.": "Cannot register new user: The email field is required.",
 	"Wrong email and password": "Wrong email and password",
-	"logout user successfully": "logout user successfully"
+	"logout user successfully": "logout user successfully",
+	"Cannot find user": "Cannot find user",
+	"Token is ok": "Token is ok",
+	"Token is failed": "Token is failed"
 }
