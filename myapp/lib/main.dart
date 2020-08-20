@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/blocs/authentication.dart';
+import 'package:myapp/blocs/blocs.dart';
 import 'package:myapp/repositories/repositories.dart';
 import 'package:myapp/screens/screens.dart';
 import 'package:myapp/screens/tab_screen.dart';
@@ -12,10 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) {
-        final x = AuthenticationBloc(userRepository: userRepository);
-        return x;
-      },
+      create: (context) => AuthenticationBloc(userRepository: userRepository),
       child: MaterialApp(
         initialRoute: '/',
         routes: {

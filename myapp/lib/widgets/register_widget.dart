@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/Validators/validators.dart';
-import 'package:myapp/blocs/authentication.dart';
-import 'package:myapp/local_databases/sqlite_db.dart';
-import 'package:myapp/models/models.dart';
+import 'package:myapp/blocs/blocs.dart';
 import 'package:myapp/repositories/repositories.dart';
 import 'package:myapp/screens/tab_screen.dart';
 import 'package:myapp/types/role_type.dart';

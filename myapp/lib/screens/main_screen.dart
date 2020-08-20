@@ -28,21 +28,7 @@ class _MainScreen extends State<MainScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder:  (context, authenticationState) {
-          if(authenticationState is AuthenticationStateSuccess) {
-            Future.delayed(
-              Duration(milliseconds: 200),
-                  (){
-                    Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (context) => TabScreen(
-                                roleType: authenticationState.user.role
-                            )
-                        )
-                    );
-                  },
-            );
-
-          } else if(authenticationState is AuthenticationStateFailed) {
+          if(authenticationState is AuthenticationStateFailed) {
             showDialog(
                 context: context,
                 builder: (context) {
@@ -56,9 +42,6 @@ class _MainScreen extends State<MainScreen> {
                   );
                 }
             );
-          } else if(authenticationState is AuthenticationStateInitial) {
-            BlocProvider.of<AuthenticationBloc>(context)
-                .add(AuthenticationEventCheckToken());
           } else if(authenticationState is AuthenticationStateLoggingIn) {
             return
               Scaffold(
