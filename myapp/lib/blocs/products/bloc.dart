@@ -19,7 +19,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
           if(response.error != null) {
             yield ProductsStateFailed(
                message: response.error,
-               products: []
+               products: List<Product>()
             );
           } else {
             List<Product> products = response.result as List<Product>;
@@ -40,22 +40,23 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
             } else if(state is ProductsStateSuccess) {
               yield ProductsStateFailed(
                   message: response.error,
-                  products: (state as ProductsStateSuccess).products);
+                  products: state.products);
             }
           } else {
             List<Product> products = response.result as List<Product>;
-            yield ProductsStateSuccess(
-                products: (state as ProductsStateSuccess).products
+            var nextState = ProductsStateSuccess(
+                products: state.products
                     + ((products.isEmpty == true) ? List<Product>() : products),
                 hasReachEnd: products.isEmpty
-            );             
+            );
+            yield nextState;
           }
         }
       }
     }catch(exception) {
       yield ProductsStateFailed(
           message: 'Cannot load products: ${exception.toString()}',
-          products: state is ProductsStateFetching ? [] : state.products
+          products: state is ProductsStateFetching ?  List<Product>(): state.products
       );
     }
   }

@@ -17,5 +17,7 @@
 	"Cannot query: ": "Cannot query: ",
 	"Query successful": "Query successful",
 	"Query successful, length = 10": "Query successful, length = 10",
-	"Query successful, length = 1": "Query successful, length = 1"
+	"Query successful, length = 1": "Query successful, length = 1",
+	"Query successful, length = 0": "Query successful, length = 0",
+	"Cannot login user: ": "Cannot login user: "
 }

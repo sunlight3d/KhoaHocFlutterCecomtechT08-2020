@@ -18,21 +18,17 @@ class ProductsRepository {
     );
     if (response.statusCode == 200) {
       if (json.decode(response.body)['status'] == 'STATUS_SUCCESS') {
-//        _user = User.fromJSON(
-//            data: json.decode(response.body)['data']
-//        );
        final responseData = json.decode(response.body)['data'] as List;
 
        final List<Product> products = responseData.map((item) {
-//         final product = Product.fromJSON(
-//             data: item
-//         );
+         print('haha');
          final product =  Product(
            id: item['id'] ?? 0,
            name: item['name'] ?? '',
            url: item['url'] ?? '',
            year: item['year'] ?? 200,
-           quantity: item['role'] ?? 1,
+           price: item['price'].toDouble(),
+           quantity: item['quantity'] ?? 1,
          );
          return product;
        }).toList();
