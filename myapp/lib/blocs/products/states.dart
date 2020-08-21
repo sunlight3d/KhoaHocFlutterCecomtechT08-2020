@@ -8,11 +8,12 @@ abstract class ProductsState extends Equatable {
 class ProductsStateInitial extends ProductsState {
   ProductsStateInitial({products}): super(products: products);
   @override
-  List<Object> get props => [];
+  List<Object> get props => [products,products.length];
 }
 class ProductsStateFetching extends ProductsState {
+  ProductsStateFetching({products}): super(products: products);
   @override
-  List<Object> get props => [];
+  List<Object> get props => [products.length, products];
 }
 class ProductsStateSuccess extends ProductsState {
   final bool hasReachEnd;
@@ -23,14 +24,15 @@ class ProductsStateSuccess extends ProductsState {
     int currentPage,
     bool hasReachEnd,
   }) {
-    return ProductsStateSuccess(
+    final newObject = ProductsStateSuccess(
         products: products ?? this.products,
         hasReachEnd: hasReachEnd ?? this.hasReachEnd
     );
+    return newObject;
   }
   @override
   // TODO: implement props
-  List<Object> get props => [products, hasReachEnd];
+  List<Object> get props => [products, hasReachEnd, products.length];
 }
 
 
@@ -50,6 +52,6 @@ class ProductsStateFailed extends ProductsState {
     );
   }
   @override
-  List<Object> get props => [message, products];
+  List<Object> get props => [message, products, products.length];
 }
 

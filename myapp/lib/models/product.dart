@@ -19,4 +19,14 @@ class Product {
         assert(year != null),
         assert(quantity >= 0)
   ;
+  factory Product.fromJSON({Map<String, dynamic> data}) {
+    return Product(
+      id: data['id'] ?? 0,
+      name: data['name'] ?? '',
+      url: data['url'] ?? '',
+      year: data['year'] ?? 200,
+      quantity: data['role'] ?? 1,
+    );
+  }
+
 }
