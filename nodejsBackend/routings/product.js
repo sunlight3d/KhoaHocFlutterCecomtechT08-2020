@@ -53,6 +53,7 @@ module.exports = ({router, i18n, sequelize, app}) => {
                 data: products,	                
 				i18n
 			})
+			return
 		} catch (exception) {
 			debugger
 			jsonResponse({
