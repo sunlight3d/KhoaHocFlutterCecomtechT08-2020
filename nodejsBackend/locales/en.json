@@ -13,5 +13,9 @@
 	"logout user successfully": "logout user successfully",
 	"Cannot find user": "Cannot find user",
 	"Token is ok": "Token is ok",
-	"Token is failed": "Token is failed"
+	"Token is failed": "Token is failed",
+	"Cannot query: ": "Cannot query: ",
+	"Query successful": "Query successful",
+	"Query successful, length = 10": "Query successful, length = 10",
+	"Query successful, length = 1": "Query successful, length = 1"
 }

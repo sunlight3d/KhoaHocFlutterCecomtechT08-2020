@@ -17,6 +17,7 @@ const LOGIN_USER = '/login'
 const LOGOUT_USER = '/logout'
 const CHECK_TOKEN = '/check_token'
 module.exports = ({router, i18n, sequelize, app}) => {		
+	/*
 	app.use(async (request, response, next) => {
 		const { originalUrl } = request
 		const routerPath = `/${originalUrl.split('/')[originalUrl.split('/').length-1]}`		
@@ -31,9 +32,9 @@ module.exports = ({router, i18n, sequelize, app}) => {
 		const {email, tokenKey} = request.body
 		if(await checkTokenKey({email, tokenKey})) {
 			next()
-		}
-		
+		}		
 	})
+	*/
 	const rules = {
         "email": "required|email",        
         "password": "required|string|min:2",        

@@ -23,10 +23,11 @@ app.use(fileUpload({
 }))
 const sequelize = require('./database/database')()
 const router = express.Router()
-const {userRouter} = require('./routings')
+const {userRouter, productRouter} = require('./routings')
 app.use('/users', userRouter({router, i18n, sequelize, app}))
+app.use('/products', productRouter({router, i18n, sequelize, app}))
 // app.use('/categories', userRouter({router, i18n, sequelize}))
-// app.use('/products', userRouter({router, i18n, sequelize}))
+
 // app.use('/orders', userRouter({router, i18n, sequelize}))
 
 app.listen(PORT, () => {

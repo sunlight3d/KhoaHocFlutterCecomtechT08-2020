@@ -13,48 +13,85 @@ CREATE TABLE IF NOT EXISTS User(
 	isActive INT,
 	UNIQUE (email)	
 );
-/*
-module.exports = (sequelize) => {
-	return sequelize.define('User', {
-		id: {
-			type: DataTypes.INTEGER(11),
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		email: {
-			type: DataTypes.STRING(400),
-			allowNull: 
-		},
-		password: {
-			type: DataTypes.STRING(400),
-			allowNull: false
-		},
-		fullName: {
-			type: DataTypes.STRING(400),
-			allowNull: true
-		},
-		expiredDate: {
-			type: DataTypes.DATE,
-			allowNull: false
-		},
-		tokenKey: {
-			type: DataTypes.STRING(200),
-			allowNull: true
-		},
-		isActive: {
-			type: DataTypes.INTEGER,			
-			defaultValue: 0,
-			allowNull: false
-		},
-		createdDate: {
-			type: DataTypes.DATE,
-			allowNull: true,
-			defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
-		},
-	}, {
-		tableName: 'User',
-		timestamps: false,
-	})
-}
-*/
+
+CREATE TABLE IF NOT EXISTS Product(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(400) NOT NULL,
+	url VARCHAR(400),
+	year int DEFAULT 2000,
+	price float DEFAULT 0.0,
+	quantity int DEFAULT 0,
+	UNIQUE (name)	
+);
+INSERT INTO Product(name, year, price, url, quantity)
+VALUES('iphone 44', 2020, 120, 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Cat_poster_1.jpg', 5);
+Product(id: 1,
+      name: 'iphone 44',
+      year: 2020,
+      price: 123,
+      url: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Cat_poster_1.jpg',
+      quantity: 5
+  ),
+  Product(id: 2,
+      name: 'iphone 55',
+      year: 2019,
+      price: 1234,
+      url: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Cat_poster_1.jpg',
+      quantity: 66
+  ),
+  Product(id: 1,
+      name: 'iphone 44',
+      year: 2020,
+      price: 123,
+      url: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Cat_poster_1.jpg',
+      quantity: 5
+  ),
+  Product(id: 2,
+      name: 'iphone 55',
+      year: 2019,
+      price: 1234,
+      url: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Cat_poster_1.jpg',
+      quantity: 66
+  ),
+  Product(id: 1,
+      name: 'iphone 44',
+      year: 2020,
+      price: 123,
+      url: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Cat_poster_1.jpg',
+      quantity: 5
+  ),
+  Product(id: 2,
+      name: 'iphone 55',
+      year: 2019,
+      price: 1234,
+      url: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Cat_poster_1.jpg',
+      quantity: 66
+  ),
+  Product(id: 1,
+      name: 'iphone 44',
+      year: 2020,
+      price: 123,
+      url: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Cat_poster_1.jpg',
+      quantity: 5
+  ),
+  Product(id: 2,
+      name: 'iphone 55',
+      year: 2019,
+      price: 1234,
+      url: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Cat_poster_1.jpg',
+      quantity: 66
+  ),
+  Product(id: 1,
+      name: 'iphone 44',
+      year: 2020,
+      price: 123,
+      url: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Cat_poster_1.jpg',
+      quantity: 5
+  ),
+  Product(id: 2,
+      name: 'iphone 55',
+      year: 2019,
+      price: 1234,
+      url: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Cat_poster_1.jpg',
+      quantity: 66
+  )

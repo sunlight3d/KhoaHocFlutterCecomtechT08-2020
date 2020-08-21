@@ -4,9 +4,8 @@ abstract class ProductsEvent extends Equatable{
   const ProductsEvent();
 }
 class ProductsEventFetch extends ProductsEvent {
-  final int page;
   final int limit;
-  ProductsEventFetch({this.page, this.limit});
+  ProductsEventFetch({this.limit});
   @override
-  List<Object> get props => [page, limit];
+  List<Object> get props => [limit];
 }

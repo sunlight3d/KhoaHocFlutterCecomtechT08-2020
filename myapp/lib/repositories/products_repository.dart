@@ -5,16 +5,16 @@ import 'package:http/http.dart' as http;
 import 'package:myapp/repositories/constants.dart';
 import 'package:myapp/repositories/response.dart';
 
-final URL_FETCH_PRODUCTS = ({int page, int limit}) =>
-    BASE_URL + '/products/fetch_products?page=$page&limit=$limit';
+final URL_FETCH_PRODUCTS = ({int offset, int limit}) =>
+    BASE_URL + '/products/fetch_products?offset=$offset&limit=$limit';
 
 class ProductsRepository {
   final http.Client httpClient;
   ProductsRepository({this.httpClient});
-  Future<Response> fetchProducts({int page, int limit}) async {
+  Future<Response> fetchProducts({int offset, int limit}) async {
     List<Product> products = new List<Product>();
     final response = await this.httpClient.get(
-        URL_FETCH_PRODUCTS(page: page, limit: limit)
+        URL_FETCH_PRODUCTS(offset: offset, limit: limit)
     );
     if (response.statusCode == 200) {
       if (json.decode(response.body)['status'] == 'STATUS_SUCCESS') {
